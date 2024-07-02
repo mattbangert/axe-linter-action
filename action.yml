@@ -17,7 +17,7 @@ inputs:
   files_pattern:
     description: 'File patterns to check for changes'
     required: false
-    default: '**/*.js **/*.jsx **/*.tsx **/*.html **/*.vue **/*.md **/*.markdown' # Default patterns
+    default: '**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown' # Default patterns
 
 runs:
   using: 'composite'
@@ -47,6 +47,7 @@ runs:
       uses: tj-actions/changed-files@v44
       with:
         files: ${{ inputs.files_pattern }}
+        separator: ","
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
