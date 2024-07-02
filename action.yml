@@ -14,25 +14,39 @@ inputs:
     description: axe Linter URL
     required: false
     default: https://axe-linter.deque.com
+  files_pattern:
+    description: 'File patterns to check for changes'
+    required: false
+    default: '**/*.js **/*.jsx **/*.tsx **/*.html **/*.vue **/*.md **/*.markdown' # Default patterns
+
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - name: Validate file patterns
+      run: |
+        SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
+        PATTERN_INPUT="${{ inputs.files_pattern }}"
+        # Split patterns into an array
+        IFS=' ' read -r -a PATTERNS <<< "$PATTERN_INPUT"
+        for pattern in "${PATTERNS[@]}"; do
+          # Extract the extension from the pattern
+          EXTENSION="${pattern##*.}"
+          # Check if the extension is in the list of supported extensions
+          if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $EXTENSION " ]]; then
+            echo "::error::Unsupported file extension detected: $EXTENSION"
+            exit 1
+          fi
+        done
+      shell: bash
     - uses: mikefarah/yq@master
     - name: Get changed files
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@v18.7
+      uses: tj-actions/changed-files@v44
       with:
-        files: |
-          **/*.js
-          **/*.jsx
-          **/*.tsx
-          **/*.html
-          **/*.vue
-          **/*.md
-          **/*.markdown
+        files: ${{ inputs.files_pattern }}
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
