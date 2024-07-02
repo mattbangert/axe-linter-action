@@ -44,7 +44,7 @@ runs:
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@v44
+      uses: tj-actions/changed-files@v18.7
       with:
         files: ${{ inputs.files_pattern }}
     - name: Run axe linter
