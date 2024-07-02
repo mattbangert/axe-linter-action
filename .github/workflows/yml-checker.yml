@@ -21,7 +21,7 @@ jobs:
         run: npx yaml-validator action.yml 
       # This validator doesn't accept globs.
       - name: Validate the example workflow
-        run: .github/action-example.yml
+        run: npx yaml-validator .github/action-example.yml
   test:
     runs-on: ubuntu-latest
     needs: yml-validator
