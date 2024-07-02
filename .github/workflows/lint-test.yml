@@ -33,7 +33,7 @@ jobs:
            echo "::set-output name=all_changed_files::'test/index.html'"
       - run: tree
       - name: Test axe Accessibility Linter
-        uses: action.yml
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.AXE_LINTER_API_KEY }}
