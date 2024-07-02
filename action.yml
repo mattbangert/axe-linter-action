@@ -47,7 +47,11 @@ runs:
       uses: tj-actions/changed-files@v18.7
       with:
         files: ${{ inputs.files_pattern }}
-        separator: ","
+    - name: debug
+      run: |
+        echo "${{ steps.changed_files.outputs.all_changed_files }}" 
+        echo "${{ steps.changed_files.outputs.any_changed }}" 
+      shell: bash
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
