@@ -31,7 +31,7 @@ jobs:
         run: |
            echo "::set-output name=any_changed::true"
            echo "::set-output name=all_changed_files::'test/index.html'"
-      - run: pwd ls
+      - run: pwd
       - name: Test axe Accessibility Linter
         uses: ./action.yml
         with:
