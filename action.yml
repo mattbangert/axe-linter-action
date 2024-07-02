@@ -14,25 +14,46 @@ inputs:
     description: axe Linter URL
     required: false
     default: https://axe-linter.deque.com
+  files_pattern:
+    description: 'File patterns to check for changes'
+    required: false
+    default: '**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown' # Default patterns
+
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - name: Validate file patterns
+      run: |
+        SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
+        PATTERN_INPUT="${{ inputs.files_pattern }}"
+        # Split patterns into an array
+        IFS=' ' read -r -a PATTERNS <<< "$PATTERN_INPUT"
+        for pattern in "${PATTERNS[@]}"; do
+          # Extract the extension from the pattern
+          EXTENSION="${pattern##*.}"
+          # Check if the extension is in the list of supported extensions
+          if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $EXTENSION " ]]; then
+            echo "::error::Unsupported file extension detected: $EXTENSION"
+            exit 1
+          fi
+        done
+      shell: bash
     - uses: mikefarah/yq@master
     - name: Get changed files
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@v18.7
+      uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4
       with:
-        files: |
-          **/*.js
-          **/*.jsx
-          **/*.tsx
-          **/*.html
-          **/*.vue
-          **/*.md
-          **/*.markdown
+        files: ${{ inputs.files_pattern }}
+        files_separator: ','
+    - name: debug
+      run: |
+        echo "All Changed Files : ${{ steps.changed_files.outputs.all_changed_files }}\n" 
+        echo "Any Changed Files? : ${{ steps.changed_files.outputs.any_changed }}\n"
+        echo "Any Changed Files == true: ${{ steps.changed_files.outputs.any_changed == 'true'}}\n" 
+      shell: bash
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
@@ -41,4 +62,5 @@ runs:
         API_KEY: ${{ inputs.api_key }}
         CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
         AXE_LINTER_URL: ${{ inputs.axe_linter_url }}
+        DEBUG_MODE: true
       shell: bash
