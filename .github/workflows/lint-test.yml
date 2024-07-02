@@ -27,9 +27,6 @@ jobs:
     needs: yml-validator
     steps:
       - uses: actions/checkout@v4
-      - name: Update the test file so the action scans it
-        run: |
-          sed -i -E "s/(<meta name=\"x-custom-version\" content=\")([0-9]+)(\" \/>)/\1$(date +%s)\3/" test/index.html
       - name: Test axe Accessibility Linter
         uses: ./
         with:
