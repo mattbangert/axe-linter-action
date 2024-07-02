@@ -49,8 +49,9 @@ runs:
         files: ${{ inputs.files_pattern }}
     - name: debug
       run: |
-        echo "${{ steps.changed_files.outputs.all_changed_files }}" 
-        echo "${{ steps.changed_files.outputs.any_changed }}" 
+        echo "${{ steps.changed_files.outputs.all_changed_files }}\n" 
+        echo "${{ steps.changed_files.outputs.any_changed }}\n"
+        echo "${{ steps.changed_files.outputs.any_changed == 'true'}}\n" 
       shell: bash
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
