@@ -1,4 +1,9 @@
-#! /bin/bash 
+#! /bin/bash
+if [ "$DEBUG_MODE" = "true" ]; then
+  set -x  # Enable debug mode
+fi
+
+
 Files="$CHANGED_FILES"
 ApiKey="$API_KEY"
 AxeLinterUrl="$AXE_LINTER_URL"
