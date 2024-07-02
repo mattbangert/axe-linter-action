@@ -44,14 +44,14 @@ runs:
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@v18.7
+      uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4
       with:
         files: ${{ inputs.files_pattern }}
     - name: debug
       run: |
-        echo "${{ steps.changed_files.outputs.all_changed_files }}\n" 
-        echo "${{ steps.changed_files.outputs.any_changed }}\n"
-        echo "${{ steps.changed_files.outputs.any_changed == 'true'}}\n" 
+        echo "All Changed Files : ${{ steps.changed_files.outputs.all_changed_files }}\n" 
+        echo "Any Changed Files? : ${{ steps.changed_files.outputs.any_changed }}\n"
+        echo "Any Changed Files == true: ${{ steps.changed_files.outputs.any_changed == 'true'}}\n" 
       shell: bash
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
