@@ -62,5 +62,4 @@ runs:
         API_KEY: ${{ inputs.api_key }}
         CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
         AXE_LINTER_URL: ${{ inputs.axe_linter_url }}
-        DEBUG_MODE: true
       shell: bash
