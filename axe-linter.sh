@@ -1,5 +1,5 @@
 #! /bin/bash
-if [ "$DEBUG_MODE" = "true" ]; then
+if [ "${DEBUG_MODE:-}" = "true" ]; then
   set -x  # Enable debug mode
 fi
 
