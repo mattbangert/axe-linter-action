@@ -23,7 +23,7 @@ jobs:
       - name: Validate the example workflow
         run: npx yaml-validator .github/action-example.yml
       - name: Run ShellCheck
-        uses: azohra/shell-linter@latest
+        uses: azohra/shell-linter@6bbeaa868df09c34ddc008e6030cfe89c03394a1
   test:
     runs-on: ubuntu-latest
     needs: lint
