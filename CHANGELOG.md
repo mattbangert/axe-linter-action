@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/mattbangert/axe-linter-action/compare/v1.0.1...v1.0.2) (2024-07-03)
+
+
+### Bug Fixes
+
+* 🐛 debug mode was set regardless of DEBUG_MODE env var ([4674bce](https://github.com/mattbangert/axe-linter-action/commit/4674bce4e0699bc2a4bde4e8a814fc43af0170b5))
+* 🐛 turns out I set DEBUG_MODE to true in the action :( ([763361b](https://github.com/mattbangert/axe-linter-action/commit/763361ba4962d19f1f5ad5defc1e4516cc0f51d0))
+
 ## [1.0.1](https://github.com/mattbangert/axe-linter-action/compare/v1.0.0...v1.0.1) (2024-07-03)
 
 
