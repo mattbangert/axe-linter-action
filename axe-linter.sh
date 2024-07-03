@@ -42,8 +42,8 @@ for File in $Files; do
       --header "authorization: $ApiKey" \
       --data "${RequestBody}"
   )
-  if [ $(echo "$Response" | jq 'has("error")') = "true" ]; then
-    $(echo "$Response" | jq -r '.error')
+  if [ "$(echo "$Response" | jq 'has("error")')" = "true" ]; then
+      echo "$Response" | jq -r '.error'
     exit 1
   fi
   ErrorCount=$(echo "$Response" | jq '.report.errors | length')
