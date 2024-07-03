@@ -9,7 +9,7 @@ on:
       - synchronize
 
 jobs:
-  yml-validator:
+  lint:
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
@@ -22,9 +22,11 @@ jobs:
       # This validator doesn't accept globs.
       - name: Validate the example workflow
         run: npx yaml-validator .github/action-example.yml
+      - name: Run ShellCheck
+        uses: azohra/shell-linter@6bbeaa868df09c34ddc008e6030cfe89c03394a1
   test:
     runs-on: ubuntu-latest
-    needs: yml-validator
+    needs: lint
     steps:
       - uses: actions/checkout@v4
       - name: Test axe Accessibility Linter
@@ -33,4 +35,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.AXE_LINTER_API_KEY }}
           axe_linter_url: https://axe-linter.deque.com
-
