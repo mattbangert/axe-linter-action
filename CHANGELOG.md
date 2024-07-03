@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/mattbangert/axe-linter-action/compare/v1.0.0...v1.0.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* 🐛 address shellcheck errors ([92bbb46](https://github.com/mattbangert/axe-linter-action/commit/92bbb461f8f978b03303202210c32cac13b6c720))
+
 ## 1.0.0 (2024-07-03)
 
 
