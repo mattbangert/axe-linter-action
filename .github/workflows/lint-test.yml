@@ -29,8 +29,6 @@ jobs:
     needs: lint
     steps:
       - uses: actions/checkout@v4
-      - name: See env
-        run : env
       - name: Test axe Accessibility Linter
         uses: ./
         with:
