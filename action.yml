@@ -48,12 +48,6 @@ runs:
       with:
         files: ${{ inputs.files_pattern }}
         files_separator: ','
-    - name: debug
-      run: |
-        echo "All Changed Files : ${{ steps.changed_files.outputs.all_changed_files }}\n" 
-        echo "Any Changed Files? : ${{ steps.changed_files.outputs.any_changed }}\n"
-        echo "Any Changed Files == true: ${{ steps.changed_files.outputs.any_changed == 'true'}}\n" 
-      shell: bash
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
