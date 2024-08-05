@@ -44,7 +44,7 @@ runs:
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4
+      uses: tj-actions/changed-files@c65cd883420fd2eb864698a825fc4162dd94482c
       with:
         files: ${{ inputs.files_pattern }}
         files_separator: ','
