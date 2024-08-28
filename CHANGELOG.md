@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/mattbangert/axe-linter-action/compare/v1.0.3...v1.1.0) (2024-08-28)
+
+
+### Features
+
+* 🎸 add support for ignoring files ([2b83794](https://github.com/mattbangert/axe-linter-action/commit/2b83794e6a3768d164e95e1254fd94133a5c72f6))
+
 ## [1.0.2](https://github.com/mattbangert/axe-linter-action/compare/v1.0.1...v1.0.2) (2024-07-03)
 
 
