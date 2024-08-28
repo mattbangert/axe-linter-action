@@ -18,6 +18,9 @@ inputs:
     description: 'File patterns to check for changes'
     required: false
     default: '**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown' # Default patterns
+  files_ignore_pattern:
+    description: 'File patterns to ignore'
+    required: false
 
 runs:
   using: 'composite'
@@ -48,6 +51,8 @@ runs:
       with:
         files: ${{ inputs.files_pattern }}
         files_separator: ','
+        files_ignore: ${{ inputs.files_ignore_pattern }}
+        files_ignore_separator: ','
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh

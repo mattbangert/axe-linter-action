@@ -33,6 +33,10 @@ A GitHub Action to lint for any accessibility issues in your pull requests. This
 
 **Optional** File patterns to check for changes. Defaults to `'**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown'`.
 
+### `files_ignore_pattern`
+
+**Optional** File patterns to ignore. Example: `**/test/*,**/docs/*`.
+
 \* To request an API key for axe-linter, please visit [accessibility.deque.com/linter-contact-us](https://accessibility.deque.com/linter-contact-us). Once provisioned please visit [https://docs.deque.com/linter/1.0.0/en/axe-linter-api-key](https://docs.deque.com/linter/1.0.0/en/axe-linter-api-key)to get your API key.
 
 ## Environment Variables
