@@ -28,18 +28,45 @@ runs:
     - uses: actions/checkout@v4
     - name: Validate file patterns
       run: |
-        echo "i'm here!"
         SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
         PATTERN_INPUT="${{ inputs.files_pattern }}"
-        # Split patterns into an array
-        IFS=' ' read -r -a PATTERNS <<< "$PATTERN_INPUT"
+        # Split multiline input into an array of lines
+        IFS=$'\n' read -r -d '' -a PATTERNS <<< "$PATTERN_INPUT"
+
         for pattern in "${PATTERNS[@]}"; do
-          # Extract the extension from the pattern
-          EXTENSION="${pattern##*.}"
-          # Check if the extension is in the list of supported extensions
-          if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $EXTENSION " ]]; then
-            echo "::error::Unsupported file extension detected: $EXTENSION"
-            exit 1
+          # Check for negated patterns
+          if [[ "$pattern" =~ ^! ]]; then
+            echo "Skipping negated pattern: $pattern"
+            continue
+          fi
+
+          # Detect brace expansion and handle it
+          if [[ "$pattern" =~ \{.*?\} ]]; then
+            # Extract braces content and split by commas
+            BRACE_CONTENT="${pattern##*\{}"
+            BRACE_CONTENT="${BRACE_CONTENT%%\}*}"
+            IFS=',' read -r -a EXTENSIONS <<< "$BRACE_CONTENT"
+
+            for EXTENSION in "${EXTENSIONS[@]}"; do
+              # Check if the extension is in the list of supported extensions
+              if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $EXTENSION " ]]; then
+                echo "::error::Unsupported file extension detected: $EXTENSION in pattern $pattern"
+                exit 1
+              fi
+            done
+          else
+            # Handle patterns without braces separately, extract extension
+            EXTENSION="${pattern##*.}"
+            # In case there's no clearer ".ext" part, we should skip it
+            if [[ "$EXTENSION" == "$pattern" ]]; then
+              echo "Skipping pattern without clear extension: $pattern"
+              continue
+            fi
+            # Check if the extension is in the list of supported extensions
+            if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $EXTENSION " ]]; then
+              echo "::error::Unsupported file extension detected: $EXTENSION in pattern $pattern"
+              exit 1
+            fi
           fi
         done
       shell: bash
