@@ -1,8 +1,8 @@
 name: Run axe Accessibility Linter
 description: Lints all changed files using the axe DevTools Linter
 branding:
-  icon: 'check-circle'
-  color: 'blue'
+  icon: "check-circle"
+  color: "blue"
 inputs:
   github_token:
     description: Github Token
@@ -15,19 +15,20 @@ inputs:
     required: false
     default: https://axe-linter.deque.com
   files_pattern:
-    description: 'File patterns to check for changes'
+    description: "File patterns to check for changes"
     required: false
-    default: '**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown' # Default patterns
+    default: "**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown" # Default patterns
   files_ignore_pattern:
-    description: 'File patterns to ignore'
+    description: "File patterns to ignore"
     required: false
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - uses: actions/checkout@v4
     - name: Validate file patterns
       run: |
+        echo "i'm here!"
         SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
         PATTERN_INPUT="${{ inputs.files_pattern }}"
         # Split patterns into an array
@@ -50,9 +51,9 @@ runs:
       uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4
       with:
         files: ${{ inputs.files_pattern }}
-        files_separator: ','
+        files_separator: ","
         files_ignore: ${{ inputs.files_ignore_pattern }}
-        files_ignore_separator: ','
+        files_ignore_separator: ","
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
