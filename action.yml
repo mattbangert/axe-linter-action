@@ -70,6 +70,13 @@ runs:
         files_separator: ","
         files_ignore: ${{ inputs.files_ignore_pattern }}
         files_ignore_separator: ","
+    - name: List all changed files
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |
+        for file in ${ALL_CHANGED_FILES}; do
+          echo "$file was changed"
+        done
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
