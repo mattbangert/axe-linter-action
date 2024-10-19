@@ -59,17 +59,17 @@ runs:
     #         fi
     #     done
     #   shell: bash
-    - uses: mikefarah/yq@master
+    # - uses: mikefarah/yq@master
     - name: Get changed files
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4
+      uses: tj-actions/changed-files@v45
       with:
         files: ${{ inputs.files_pattern }}
-        files_separator: ","
-        files_ignore: ${{ inputs.files_ignore_pattern }}
-        files_ignore_separator: ","
+        # files_separator: ","
+        # files_ignore: ${{ inputs.files_ignore_pattern }}
+        # files_ignore_separator: ","
     - name: List all changed files
       env:
         ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
