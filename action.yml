@@ -45,8 +45,7 @@ runs:
     - name: Validate file patterns
       run: |
         SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
-        # PATTERN_INPUT="${{ steps.changed_files.outputs.all_changed_files }}"
-        PATTERN_INPUT="packages/client/ui/src/component-library/Button.tsx src/app/actions/project/create/projectCreate.js"
+        PATTERN_INPUT="${{ steps.changed_files.outputs.all_changed_files }}"
         # Split patterns into an array
         IFS=' ' read -r -a PATTERNS <<< "$PATTERN_INPUT"
         for pattern in "${PATTERNS[@]}"; do
