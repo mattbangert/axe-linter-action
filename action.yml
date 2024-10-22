@@ -25,41 +25,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - uses: actions/checkout@v4
-    # - name: Validate file patterns
-    #   run: |
-    #     SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
-    #     PATTERN_INPUT="${{ inputs.files_pattern }}"
-    #     echo "Checking input: $PATTERN_INPUT"
-    #     # Split patterns into an array
-    #     IFS=$'\n' read -r -d '' -a PATTERNS <<< "$(echo "$PATTERN_INPUT" | xargs -n1)"
-    #     for pattern in "${PATTERNS[@]}"; do
-    #           echo "Checking array: $pattern"
-    #     done
-    #     for pattern in "${PATTERNS[@]}"; do
-    #       echo "Checking pattern: $pattern"
-    #       # Extract the extension from the pattern
-    #       EXTENSION="${pattern##*.}"
-    #       echo "Checking extension: $EXTENSION"
-    #       NEXT_CHAR="${EXTENSION:0:1}"
-    #         echo "Next character in extension: $NEXT_CHAR"
-    #         if [[ "$NEXT_CHAR" == "{" ]]; then
-    #         NEW_EXTENSION="${pattern#*\{}"
-    #         NEW_EXTENSION="${NEW_EXTENSION%\}*}"
-    #         echo "Checking extension: $NEW_EXTENSION"
-    #           IFS=',' read -r -a PATTERNS1 <<< "$NEW_EXTENSION"
-    #           for pattern1 in "${PATTERNS1[@]}"; do
-    #             echo "Checking extension: $pattern1"
-    #             # Check if the extension is in the list of supported extensions
-    #             if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $pattern1 " ]]; then
-    #               echo "::error::Unsupported file extension detected: $pattern1"
-    #           exit 1
-    #           fi
-    #           done
-    #         fi
-    #     done
-    #   shell: bash
-    # - uses: mikefarah/yq@master
+    - uses: actions/checkout@v4
+    - uses: mikefarah/yq@master
     - name: Get changed files
       id: changed_files
       env:
@@ -67,15 +34,29 @@ runs:
       uses: tj-actions/changed-files@v45
       with:
         files: ${{ inputs.files_pattern }}
-        # files_separator: ","
-        # files_ignore: ${{ inputs.files_ignore_pattern }}
-        # files_ignore_separator: ","
     - name: List all changed files
       env:
         ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
       run: |
         for file in ${ALL_CHANGED_FILES}; do
           echo "$file was changed"
+        done
+      shell: bash
+    - name: Validate file patterns
+      run: |
+        SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
+        # PATTERN_INPUT="${{ steps.changed_files.outputs.all_changed_files }}"
+        PATTERN_INPUT="packages/client/ui/src/component-library/Button.tsx src/app/actions/project/create/projectCreate.js"
+        # Split patterns into an array
+        IFS=' ' read -r -a PATTERNS <<< "$PATTERN_INPUT"
+        for pattern in "${PATTERNS[@]}"; do
+          # Extract the extension from the pattern
+          EXTENSION="${pattern##*.}"
+          # Check if the extension is in the list of supported extensions
+          if [[ ! " $SUPPORTED_EXTENSIONS " =~ " $EXTENSION " ]]; then
+            echo "::error::Unsupported file extension detected: $EXTENSION"
+            exit 1
+          fi
         done
       shell: bash
     - name: Run axe linter
