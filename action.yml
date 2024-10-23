@@ -26,7 +26,6 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
-    - uses: mikefarah/yq@master
     - name: Get changed files
       id: changed_files
       env:
@@ -34,6 +33,7 @@ runs:
       uses: tj-actions/changed-files@v45
       with:
         files: ${{ inputs.files_pattern }}
+        files_ignore: ${{ inputs.files_ignore_pattern }}
     - name: List all changed files
       env:
         ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
