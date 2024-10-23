@@ -26,10 +26,26 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v4
+    - name: Get changed files
+      id: changed_files
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      uses: tj-actions/changed-files@v45
+      with:
+        files: ${{ inputs.files_pattern }}
+        files_ignore: ${{ inputs.files_ignore_pattern }}
+    - name: List all changed files
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
+      run: |
+        for file in ${ALL_CHANGED_FILES}; do
+          echo "$file was changed"
+        done
+      shell: bash
     - name: Validate file patterns
       run: |
         SUPPORTED_EXTENSIONS="js jsx tsx html vue md markdown"
-        PATTERN_INPUT="${{ inputs.files_pattern }}"
+        PATTERN_INPUT="${{ steps.changed_files.outputs.all_changed_files }}"
         # Split patterns into an array
         IFS=' ' read -r -a PATTERNS <<< "$PATTERN_INPUT"
         for pattern in "${PATTERNS[@]}"; do
@@ -42,17 +58,6 @@ runs:
           fi
         done
       shell: bash
-    - uses: mikefarah/yq@master
-    - name: Get changed files
-      id: changed_files
-      env:
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4
-      with:
-        files: ${{ inputs.files_pattern }}
-        files_separator: ','
-        files_ignore: ${{ inputs.files_ignore_pattern }}
-        files_ignore_separator: ','
     - name: Run axe linter
       if: steps.changed_files.outputs.any_changed == 'true'
       run: ${{ github.action_path }}/axe-linter.sh
