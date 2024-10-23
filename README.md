@@ -69,7 +69,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.AXE_LINTER_API_KEY }}
           axe_linter_url: https://axe-linter.deque.com
-          files_pattern: "**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown"
+          files_pattern: '**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown'
 ```
 
 If you need to better define your inclusions/exclusions, you may use a combination of `files_pattern` and `files_ignore_pattern`:
