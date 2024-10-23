@@ -1,9 +1,6 @@
 # axe-linter-action
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/mattbangert/axe-linter-action) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mattbangert/axe-linter-action/lint-test.yml) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/mattbangert/axe-linter-action/total) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/mattbangert/axe-linter-action) ![GitHub Release](https://img.shields.io/github/v/release/mattbangert/axe-linter-action)
-
-
-
-
 
 A GitHub Action to lint for any accessibility issues in your pull requests. This is a fork of the [offical action](https://github.com/dequelabs/axe-linter-action) from Deque.
 
@@ -31,11 +28,13 @@ A GitHub Action to lint for any accessibility issues in your pull requests. This
 
 ### `files_pattern`
 
-**Optional** File patterns to check for changes. Defaults to `'**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown'`.
+**Optional** File patterns to check for changes. Defaults to `'**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown'`.\
+You may also use a multiline string to specify multiple patterns.
 
 ### `files_ignore_pattern`
 
-**Optional** File patterns to ignore. Example: `**/test/*,**/docs/*`.
+**Optional** File patterns to ignore. Example: `**/test/*,**/docs/*`.\
+You may also use a multiline string to specify multiple patterns.
 
 \* To request an API key for axe-linter, please visit [accessibility.deque.com/linter-contact-us](https://accessibility.deque.com/linter-contact-us). Once provisioned please visit [https://docs.deque.com/linter/1.0.0/en/axe-linter-api-key](https://docs.deque.com/linter/1.0.0/en/axe-linter-api-key)to get your API key.
 
@@ -70,4 +69,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.AXE_LINTER_API_KEY }}
           axe_linter_url: https://axe-linter.deque.com
-          files_pattern: '**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown'
+          files_pattern: "**/*.js,**/*.jsx,**/*.tsx,**/*.html,**/*.vue,**/*.md,**/*.markdown"
+```
+
+If you need to better define your inclusions/exclusions, you may use a combination of `files_pattern` and `files_ignore_pattern`:
+
+```yaml
+files_pattern: |
+  packages/client/**/*.{js,jsx,tsx,html,vue}
+  src/**/*.{js,jsx,tsx,html,vue}
+files_ignore_pattern: |
+  src/**/*_test.{js,jsx,tsx,html,vue}
+  **/tests/**/*.{js,jsx,tsx,html,htm,vue}
+```
