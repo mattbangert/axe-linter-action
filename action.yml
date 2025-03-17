@@ -30,7 +30,7 @@ runs:
       id: changed_files
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@v46
       with:
         files: ${{ inputs.files_pattern }}
         files_ignore: ${{ inputs.files_ignore_pattern }}
