@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/mattbangert/axe-linter-action/compare/v1.2.0...v1.3.0) (2025-07-16)
+
+
+### Features
+
+* 🎸 update tj-actions/changed-files to v46.0.5, tag to sha ([ff9f756](https://github.com/mattbangert/axe-linter-action/commit/ff9f756c13a282973efafe5b3bd46d7204e7bbd3))
+* 🎸 update tj-actions/changed-files to v46.0.5, tag to sha ([8e6ac2d](https://github.com/mattbangert/axe-linter-action/commit/8e6ac2d90a4a9d6fec2060a1041063a38d93efe7))
+
 ## [1.1.0](https://github.com/mattbangert/axe-linter-action/compare/v1.0.3...v1.1.0) (2024-08-28)
 
 
